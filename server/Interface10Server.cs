@@ -14,10 +14,11 @@ namespace Interface10Server;
 public record ModMetadata : IModMetadata
 {
     public string ModGuid { get; init; } = "com.grifm0le.interface11backport";
-    public string Name { get; init; } = "Grifm0le-Interface11Backport";
+    // letters and digits only in Name and Author (SPT Forge); SPT shows it as "<Author>-<Name>"
+    public string Name { get; init; } = "Interface11Backport";
     public string Author { get; init; } = "Grifm0le";
     public List<string>? Contributors { get; init; }
-    public SemanticVersioning.Version Version { get; init; } = new("1.0.0");
+    public SemanticVersioning.Version Version { get; init; } = new("1.0.1");
     public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.0");
     public bool HasPrepatcher { get; init; }
     public List<string>? Incompatibilities { get; init; }
@@ -42,6 +43,12 @@ public class HeadCustomization(TemplateTable templateTable, ISptLogger<HeadCusto
     {
         _templates = templateTable;
         _log = logger;
+        if (Compat.HjCustomization)
+        {
+            logger.Info("[Interface11Backport] Hj's Improved Customization UI found: it changes the face, ours stays off");
+            return Task.CompletedTask;
+        }
+
         var target = AccessTools.Method(typeof(CustomizationController), nameof(CustomizationController.SetCustomisation));
         if (target == null)
         {

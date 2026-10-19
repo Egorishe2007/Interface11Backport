@@ -37,7 +37,7 @@ namespace Interface10
             [HarmonyPostfix]
             private static void Postfix(InventoryScreen __instance)
             {
-                if (!Interface10Plugin.CharacterTab.Value)
+                if (!Interface10Plugin.CharacterTab.Value || Compat.HjCustomization)
                 {
                     return;
                 }

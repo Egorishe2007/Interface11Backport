@@ -33,6 +33,12 @@ public class ClothingSides(TemplateTable templateTable, TradersTable tradersTabl
         _templates = templateTable;
         _traders = tradersTable;
         _profiles = profileHelper;
+        if (Compat.HjCustomization)
+        {
+            logger.Info("[Interface11Backport] Hj's Improved Customization UI found: it sells the other side's clothing, ours stays off");
+            return Task.CompletedTask;
+        }
+
         var harmony = new Harmony("com.grifm0le.interface11backport.clothingsides");
         var suits = AccessTools.Method(typeof(CustomizationController), nameof(CustomizationController.GetTraderSuits));
         var offers = AccessTools.Method(typeof(CustomizationCallbacks), nameof(CustomizationCallbacks.GetTraderSuits));

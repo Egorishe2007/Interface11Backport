@@ -9,11 +9,10 @@ namespace Interface10
     // Interface 1.1 Backport: the interface of EFT 1.0-1.2 on SPT's 0.16 client, screen by screen, each one switched on
     // and off here. The screens are rebuilt from the later clients' own UI scenes (layouts, sizes, colours, sprites and
     // texts of their MenuUIScene etc.). Name and GUID as SPT Forge wants them ("<user>-<mod>", com.<user>.<mod>).
-    [BepInPlugin(Guid, "Grifm0le-Interface11Backport", "1.0.0")]
-    // Soft dependencies, loaded first when they are there: VisitAPI (it builds the character's tasks tab itself, so ours
-    // stays out of it) and the tutorial mod (its notes and tapes are read and played in the Handbook).
+    [BepInPlugin(Guid, "Grifm0le-Interface11Backport", "1.0.1")]
+    // Soft dependency, loaded first when it is there: VisitAPI (it builds the character's tasks tab itself, so ours stays
+    // out of it). The tutorial mod (Tutorial Backport) depends on this one instead: see Tutorial.Present.
     [BepInDependency("com.sora.visitapi", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.egor.menutweaks", BepInDependency.DependencyFlags.SoftDependency)]
     public class Interface10Plugin : BaseUnityPlugin
     {
         internal const string Guid = "com.grifm0le.interface11backport";
@@ -30,7 +29,6 @@ namespace Interface10
         internal static ConfigEntry<bool> MenuColumn;
         internal static ConfigEntry<MenuBackground> Background;
         internal static ConfigEntry<bool> Logo10;
-        internal static ConfigEntry<bool> RepeatTutorial;
         internal static ConfigEntry<bool> Settings;
         internal static ConfigEntry<bool> QuestGroups;
         internal static ConfigEntry<bool> CharacterTab;
@@ -75,8 +73,6 @@ namespace Interface10
                 "The main menu's buttons placed as in 1.0: a column around the middle of the screen, EXIT apart under it.");
             Background = Config.Bind("Menu", "Background", MenuBackground.Game,
                 "The main menu's background scene. Game keeps the choice in the game's settings (Game > Main menu background); Factory has the lamp over the logo.");
-            RepeatTutorial = Config.Bind("Screens", "Repeat tutorial button", true,
-                "1.0's REPEAT TUTORIAL on the character screen's Overall tab: the tutorial mod's tutorial raid again, with this character.");
             Settings = Config.Bind("Screens", "1.0 settings", true,
                 "1.0's settings screen: one column of rows on a dark panel, the names on the left, drop-downs, sliders and check boxes " +
                 "at the right end, the nickname's bar grey. Takes effect when the settings open; switching it off needs a game restart.");

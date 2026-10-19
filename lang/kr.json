@@ -4,8 +4,6 @@
  "tapes.stop": "정지",
  "tapes.transcript": "<b>녹취록:</b>",
  "tapes.no_recorder": "녹음기를 장착하거나 은신처의 정보 센터를 업그레이드하세요",
- "tutorial.repeat": "튜토리얼 다시 하기",
- "tutorial.repeat_question": "튜토리얼을 다시 하시겠습니까?",
  "quests.tier": "충성도 레벨 {0}",
  "quests.key": "핵심 임무",
  "quests.daily": "일일 임무",

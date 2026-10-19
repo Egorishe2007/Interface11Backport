@@ -30,4 +30,4 @@
 -r:"{SPT}/BepInEx/plugins/spt/spt-common.dll"
 -r:"{SPT}/BepInEx/plugins/spt/spt-custom.dll"
 -r:"{SPT}/EscapeFromTarkov_Data/Managed/Newtonsoft.Json.dll"
-Plugin.cs Ui.cs Lang.cs LoadingScreen.cs Buttons.cs LocationScreen.cs MainMenu.cs RaidSettings.cs Tutorial.cs Handbook.cs CharacterScreen.cs SettingsScreen.cs QuestGroups.cs CharacterTab.cs HandbookNew.cs TasksTab.cs ClothingSlots.cs NotForFlea.cs Windows.cs ItemCells.cs QuestRewards.cs ClothingService.cs Skills.cs Messenger.cs RaidPrep.cs RaidEnd.cs Icons12.cs Inventory.cs Market.cs Splash.cs InRaid.cs InRaidLayout.cs ChatDates.cs SettingsTips.cs
+Plugin.cs Ui.cs Lang.cs LoadingScreen.cs Buttons.cs LocationScreen.cs MainMenu.cs RaidSettings.cs Tutorial.cs Handbook.cs SettingsScreen.cs QuestGroups.cs CharacterTab.cs HandbookNew.cs TasksTab.cs ClothingSlots.cs NotForFlea.cs Windows.cs ItemCells.cs QuestRewards.cs ClothingService.cs Skills.cs Messenger.cs RaidPrep.cs RaidEnd.cs Icons12.cs Inventory.cs Market.cs Splash.cs InRaid.cs InRaidLayout.cs ChatDates.cs SettingsTips.cs Compat.cs

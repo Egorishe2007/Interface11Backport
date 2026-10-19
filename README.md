@@ -4,7 +4,7 @@
 
 ## Что это
 
-Интерфейс Escape from Tarkov 1.0–1.2 в SPT 4.1.x (клиент 0.16.9). Экраны пересобраны по данным самих 1.0 и 1.2:
+Интерфейс Escape from Tushonka 1.0–1.2 в SPT 4.1.x (клиент 0.16.9). Экраны пересобраны по данным самих 1.0 и 1.2:
 расположение, размеры, цвета, иконки и тексты взяты из их UI-сцен. Игровые элементы 0.16 остаются и работают как
 раньше. Каждую часть можно выключить отдельно: F12 → Grifm0le-Interface11Backport.
 
@@ -47,7 +47,7 @@
 
 ## Установка
 
-Распакуйте `Interface11Backport-<версия>.zip` в папку SPT (где лежит `EscapeFromTarkov.exe`):
+Распакуйте `Interface11Backport-<версия>.zip` в папку SPT (где лежат `BepInEx` и `SPT_Runtime`):
 - клиентская часть — `BepInEx/plugins/Interface10`;
 - серверная часть — `SPT_Runtime/user/mods/Interface10`.
 
@@ -61,19 +61,22 @@
 ## Совместимость
 
 Сделан и проверен на чистом SPT 4.1.6. Моды, которые меняют те же экраны, могут конфликтовать — пишите, исправим.
-С VisitAPI работает: вкладку заданий персонажа строит сам VisitAPI. С Fika не проверялся.
+С VisitAPI работает: вкладку заданий персонажа строит сам VisitAPI, его сюжетные задания у торговцев скрыты.
+С Fika 2.4.6 проверен в роли хоста рейда; совместная игра с другими игроками пока не проверялась.
+С Hj's Improved Customization UI: используются его вкладка CUSTOMIZATION и переключатели BEAR/USEC у Барахольщика, наши
+вкладка «Персонаж» и изменения у Барахольщика (и их серверная часть) отключаются сами.
 
 ## Авторы и права
 
 Мод: Grifm0le. Код и переводы на 15 языков написаны с помощью ИИ-ассистента (Claude, Anthropic).
-Иконки, картинки, тексты и расположение экранов Escape from Tarkov принадлежат Battlestate Games.
+Иконки, картинки, тексты и расположение экранов оригинальной игры принадлежат Battlestate Games.
 Код мода — под лицензией MIT (LICENSE.txt).
 
 ---
 
 ## What it is
 
-The interface of Escape from Tarkov 1.0–1.2 in SPT 4.1.x (client 0.16.9). The screens are rebuilt from 1.0's and 1.2's
+The interface of Escape from Tushonka 1.0–1.2 in SPT 4.1.x (client 0.16.9). The screens are rebuilt from 1.0's and 1.2's
 own data: layouts, sizes, colours, icons and texts come from their UI scenes. 0.16's elements stay and work as before.
 Each part can be switched off on its own: F12 → Grifm0le-Interface11Backport.
 
@@ -117,7 +120,7 @@ In Messenger, write to the **Commando** friend:
 
 ## Install
 
-Extract `Interface11Backport-<version>.zip` into your SPT folder (the one with `EscapeFromTarkov.exe`):
+Extract `Interface11Backport-<version>.zip` into your SPT folder (the one with `BepInEx` and `SPT_Runtime`):
 - the client part goes to `BepInEx/plugins/Interface10`;
 - the server part to `SPT_Runtime/user/mods/Interface10`.
 
@@ -132,12 +135,15 @@ story, expansions, trader dialogues (VisitAPI has them), Area Light Instancing.
 ## Compatibility
 
 Made and tested on a clean SPT 4.1.6. Mods that change the same screens may clash — report it and it gets fixed.
-Works with VisitAPI: VisitAPI builds the character's tasks tab itself. Not tested with Fika.
+Works with VisitAPI: VisitAPI builds the character's tasks tab itself, and its story tasks stay hidden at the traders.
+Fika 2.4.6: tested as the raid's host; playing together with other players is not tested yet.
+With Hj's Improved Customization UI, its CUSTOMIZATION tab and Ragman's BEAR/USEC toggles are used; this mod's
+CHARACTER tab and Ragman changes (and their server side) switch themselves off.
 
 ## Credits and rights
 
 Mod by Grifm0le. The code and the translations into 15 languages were written with an AI assistant (Claude, Anthropic).
-Escape from Tarkov's icons, pictures, texts and screen layouts belong to Battlestate Games.
+The original game's icons, pictures, texts and screen layouts belong to Battlestate Games.
 The mod's code is under the MIT license (LICENSE.txt).
 
 ---

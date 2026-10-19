@@ -4,8 +4,6 @@
  "tapes.stop": "停止",
  "tapes.transcript": "<b>書き起こし：</b>",
  "tapes.no_recorder": "ボイスレコーダーを装備するか、隠れ家のインテリジェンスセンターを強化してください",
- "tutorial.repeat": "チュートリアルをやり直す",
- "tutorial.repeat_question": "チュートリアルをやり直しますか？",
  "quests.tier": "信頼度レベル {0}",
  "quests.key": "重要タスク",
  "quests.daily": "デイリータスク",

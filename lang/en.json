@@ -4,8 +4,6 @@
  "tapes.stop": "STOP",
  "tapes.transcript": "<b>Transcript:</b>",
  "tapes.no_recorder": "Equip recorder or upgrade Intelligence Center in the Hideout",
- "tutorial.repeat": "REPEAT TUTORIAL",
- "tutorial.repeat_question": "Repeat tutorial?",
  "quests.tier": "Loyalty level {0}",
  "quests.key": "Key tasks",
  "quests.daily": "Operational tasks",

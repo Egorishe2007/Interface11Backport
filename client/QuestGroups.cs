@@ -47,16 +47,20 @@ namespace Interface10
             }
         }
 
-        // Whenever the game shows or hides a row (filters, a status change), the groups are made again.
+        // Whenever the game shows or hides a row (filters, a status change), the groups are made again. The row's state
+        // after the game AND the other mods have decided (run last: VisitAPI hides its story tasks here) is what the
+        // groups show, not a rule of our own.
         [HarmonyPatch(typeof(QuestsListView), nameof(QuestsListView.UpdateSingleQuestVisibility))]
         internal static class VisibilityPatch
         {
             [HarmonyPostfix]
-            private static void Postfix(QuestsListView __instance)
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix(QuestsListView __instance, QuestListItem questView)
             {
                 var groups = __instance.GetComponent<QuestGroupsView10>();
                 if (groups != null)
                 {
+                    groups.Decided(questView);
                     groups.Dirty();
                 }
             }
@@ -140,6 +144,8 @@ namespace Interface10
         private readonly Dictionary<QuestListItem, int> _order = new Dictionary<QuestListItem, int>();
         private readonly Dictionary<string, int> _levels = new Dictionary<string, int>();
         private readonly HashSet<string> _reported = new HashSet<string>();
+        // each row's last verdict from UpdateSingleQuestVisibility (the game's filters, then other mods')
+        private readonly Dictionary<QuestListItem, bool> _verdict = new Dictionary<QuestListItem, bool>();
         private QuestsListView _view;
         private RectTransform _container;
         private Trader _trader;
@@ -171,6 +177,14 @@ namespace Interface10
         }
 
         internal void Dirty() => _dirty = true;
+
+        internal void Decided(QuestListItem row)
+        {
+            if (row != null)
+            {
+                _verdict[row] = row.gameObject.activeSelf;
+            }
+        }
 
         private void LateUpdate()
         {
@@ -223,6 +237,12 @@ namespace Interface10
 
         private void Regroup()
         {
+            // rows of an earlier trader, destroyed since
+            foreach (var gone in _verdict.Keys.Where(r => r == null).ToList())
+            {
+                _verdict.Remove(gone);
+            }
+
             var rows = new List<QuestListItem>();
             foreach (Transform child in _container)
             {
@@ -306,9 +326,11 @@ namespace Interface10
             return count;
         }
 
-        // The game's own rule for a row (QuestsListView.UpdateSingleQuestVisibility).
+        // Whether a row is shown: the verdict of QuestsListView.UpdateSingleQuestVisibility when it has given one (other
+        // mods may hide rows there, as VisitAPI does with its story tasks), else the game's own rule.
         private bool Passes(QuestListItem row) =>
-            (_exclude == null || !_exclude.Contains(row.Quest.QuestStatus)) && row.Quest.IsVisible;
+            _verdict.TryGetValue(row, out var shown) ? shown
+                : (_exclude == null || !_exclude.Contains(row.Quest.QuestStatus)) && row.Quest.IsVisible;
 
         private string GroupOf(Quest quest)
         {

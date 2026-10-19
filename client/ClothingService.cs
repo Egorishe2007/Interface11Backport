@@ -29,8 +29,12 @@ namespace Interface10
         internal static int Filter;
         [ThreadStatic] private static bool _inside;
 
+        // Ragman's clothing as 1.2 (header, toggles, filter, both sides): not with Hj's Improved Customization UI, which
+        // brings its own (see Compat)
+        internal static bool Active => Interface10Plugin.TaskView.Value && !Compat.HjCustomization;
+
         internal static bool Both(Profile profile) =>
-            Interface10Plugin.TaskView.Value && profile?.Info != null
+            Active && profile?.Info != null
             && (string.Equals(profile.Info.GameVersion, Unheard, StringComparison.OrdinalIgnoreCase) || ServerBoth(false));
 
         private static bool _serverBoth;
@@ -76,7 +80,7 @@ namespace Interface10
             [HarmonyPostfix]
             private static void Postfix(TacticalClothingView __instance)
             {
-                if (!Interface10Plugin.TaskView.Value)
+                if (!Active)
                 {
                     return;
                 }
@@ -114,6 +118,11 @@ namespace Interface10
             [HarmonyPrefix]
             private static void Prefix(Trader __instance, ref EPlayerSide side)
             {
+                if (!Active)
+                {
+                    return;
+                }
+
                 if (_shown.HasValue)
                 {
                     side = _shown.Value;
@@ -139,7 +148,7 @@ namespace Interface10
             [HarmonyPostfix]
             private static void Postfix(ClothingItem __instance, ClothingItem.EClothingItemState state)
             {
-                if (Interface10Plugin.TaskView.Value)
+                if (Active)
                 {
                     Show(__instance, state);
                 }

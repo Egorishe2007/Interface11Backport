@@ -7,14 +7,18 @@ using UnityEngine;
 
 namespace Interface10
 {
-    // The tutorial mod (MenuTweaks), when it is installed: its notes and tapes for the Handbook. Every call goes through
-    // Bridge, which reaches it by reflection, so Interface10 also builds and runs without it.
+    // The tutorial mod (Tutorial Backport, its code still in the MenuTweaks namespace), when it is installed: its notes
+    // and tapes for the Handbook. Every call goes through Bridge, which reaches it by reflection, so Interface10 also
+    // builds and runs without it. The tutorial mod depends on this one, so this one must not depend on it (no
+    // BepInDependency): it is looked for only once the game runs, when every plugin is loaded.
     internal static class Tutorial
     {
         internal const string Recorder = "6526909b539ee574cb624991";
         private static bool? _present;
 
-        internal static bool Present => _present ??= BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.egor.menutweaks");
+        // Tutorial Backport's GUID; com.egor.menutweaks is the same mod before its Forge name (development builds)
+        internal static bool Present => _present ??= BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.grifm0le.tutorialbackport")
+                                                     || BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.egor.menutweaks");
 
         internal static string NotesCategory => Present ? Bridge.NotesCategory() : null;
         internal static string TapesCategory => Present ? Bridge.TapesCategory() : null;
@@ -54,16 +58,6 @@ namespace Interface10
             }
         }
 
-        internal static bool CanStartTutorial => Present && Bridge.CanStartTutorial();
-
-        internal static void StartTutorial()
-        {
-            if (Present)
-            {
-                Bridge.StartTutorial();
-            }
-        }
-
         // By reflection, so this mod builds and runs without the tutorial mod (which is published separately).
         private static class Bridge
         {
@@ -72,10 +66,13 @@ namespace Interface10
 
             private static Type Content => _content ??= AccessTools.TypeByName("MenuTweaks.TutorialContent");
 
+            private const BindingFlags Static = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+
+            // plain reflection: AccessTools.Property logs a HarmonyX warning for each member that is a field instead
             private static object Get(string name)
             {
-                var property = AccessTools.Property(Content, name);
-                return property != null ? property.GetValue(null) : AccessTools.Field(Content, name)?.GetValue(null);
+                var property = Content.GetProperty(name, Static);
+                return property != null ? property.GetValue(null) : Content.GetField(name, Static)?.GetValue(null);
             }
 
             private static object Call(string name, params object[] args)
@@ -119,10 +116,6 @@ namespace Interface10
             internal static List<KeyValuePair<string, string>> Transcript(string template) => (List<KeyValuePair<string, string>>)Call("Transcript", template);
 
             internal static void Read(Item note) => Call("Read", note);
-
-            internal static bool CanStartTutorial() => (bool)Get("CanStartTutorial");
-
-            internal static void StartTutorial() => Call("StartTutorial");
         }
     }
 }
