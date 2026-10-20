@@ -65,6 +65,9 @@
 С Fika 2.4.6 проверен в роли хоста рейда; совместная игра с другими игроками пока не проверялась.
 С Hj's Improved Customization UI: используются его вкладка CUSTOMIZATION и переключатели BEAR/USEC у Барахольщика, наши
 вкладка «Персонаж» и изменения у Барахольщика (и их серверная часть) отключаются сами.
+С WTT - Head and Voice Selector: его выбор головы и голоса на вкладке «Общее» работает под нашими ячейками одежды.
+Со Skills Extended: первая помощь, полевая медицина, бесшумные и теневые операции остаются в списке умений — этот мод
+даёт им смысл. Если другой мод оживляет другие скрытые умения, выключите «1.2 skills list» (F12).
 
 ## Авторы и права
 
@@ -139,6 +142,9 @@ Works with VisitAPI: VisitAPI builds the character's tasks tab itself, and its s
 Fika 2.4.6: tested as the raid's host; playing together with other players is not tested yet.
 With Hj's Improved Customization UI, its CUSTOMIZATION tab and Ragman's BEAR/USEC toggles are used; this mod's
 CHARACTER tab and Ragman changes (and their server side) switch themselves off.
+With WTT - Head and Voice Selector, its head and voice drop-downs on the Overall tab work under this mod's clothing cells.
+With Skills Extended, first aid, field medicine, silent operations and shadow connections stay in the skills list, as
+that mod gives them a use. If another mod brings other hidden skills back, switch off "1.2 skills list" (F12).
 
 ## Credits and rights
 

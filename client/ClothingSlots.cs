@@ -76,6 +76,58 @@ namespace Interface10
 
             slot.Show(suites, selected, matching, onSelected);
         }
+
+        // WTT Head and Voice Selector copies the Overall tab's clothing panel once, after the game's Show, as
+        // LeftSide/NewHeadVoiceCustomizationDrawers 50 lower, and makes its two drop-downs choose the head and the voice.
+        // The panel has our cells by then, so the copy brought a second pair of cells and names over ours (a click on our
+        // top's cell hit the copy's arrow strip) and its own drop-downs stayed hidden: it gets them back, in 1.2's look,
+        // and loses our cells. Runs after that mod's postfix.
+        [HarmonyPatch(typeof(OverallScreen), nameof(OverallScreen.Show))]
+        internal static class HeadVoicePatch
+        {
+            private static bool _logged;
+
+            [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
+            private static void Postfix(OverallScreen __instance)
+            {
+                try
+                {
+                    var copy = __instance.transform.Find("LeftSide/NewHeadVoiceCustomizationDrawers");
+                    var ours = copy == null ? null : copy.GetComponentsInChildren<ClothingSlot10>(true);
+                    if (ours == null || ours.Length == 0)
+                    {
+                        return;
+                    }
+
+                    foreach (var slot in ours)
+                    {
+                        slot.gameObject.SetActive(false);
+                        UnityEngine.Object.Destroy(slot.gameObject);
+                    }
+
+                    foreach (Transform side in copy)
+                    {
+                        side.Find("Icon")?.gameObject.SetActive(true);
+                        foreach (var box in side.GetComponentsInChildren<DropDownBox>(true).Where(b => b.transform.parent == side))
+                        {
+                            RaidPrep10.Dropdown(box);
+                            box.gameObject.SetActive(true);
+                        }
+                    }
+
+                    if (!_logged)
+                    {
+                        _logged = true;
+                        Interface10Plugin.Log.LogInfo("WTT Head and Voice Selector's copy of the clothing panel: our clothing cells taken out of it, its head and voice drop-downs shown");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Interface10Plugin.Log.LogWarning($"Clothing slots, head and voice copy: {ex}");
+                }
+            }
+        }
     }
 
     // The clothing's bundles for the pictures, as Ragman's clothing list has them: retained, the game's icon creator
@@ -217,19 +269,30 @@ namespace Interface10
         {
             _upper = upper;
 
-            // the name box
+            // the name box; a click on it opens the other suites too (it is where 0.16's drop-down was)
             var box = Ui.Rect(transform, "Label");
             Ui.Stretch(box);
-            Ui.Stretch(Ui.Image(box, "Background", new Color(0f, 0f, 0f, 0.8f)).rectTransform);
+            var back = Ui.Image(box, "Background", new Color(0f, 0f, 0f, 0.8f));
+            back.raycastTarget = true;
+            Ui.Stretch(back.rectTransform);
+            var label = box.gameObject.AddComponent<Button>();
+            label.targetGraphic = back;
+            label.transition = Selectable.Transition.None;
+            label.onClick.AddListener(Toggle);
+            // as 1.2's: 5 left of the middle and 2 lower, the font down to 10 for a long name
             _name = Ui.Text(box, "Text", 15f, NameColor);
             _name.alignment = TextAlignmentOptions.Center;
-            _name.enableWordWrapping = false;
+            _name.enableAutoSizing = true;
+            _name.fontSizeMin = 10f;
+            _name.fontSizeMax = 15f;
+            _name.enableWordWrapping = true;
             _name.overflowMode = TextOverflowModes.Ellipsis;
+            _name.margin = new Vector4(0f, -4f, 0f, 0f);
             var text = _name.rectTransform;
             text.anchorMin = Vector2.zero;
             text.anchorMax = Vector2.one;
-            text.offsetMin = new Vector2(4f, 2f);
-            text.offsetMax = new Vector2(-4f, -2f);
+            text.offsetMin = new Vector2(20f, 2f);
+            text.offsetMax = new Vector2(-30f, -6f);
             Frame(box);
 
             // the cell over the box, at the panel's edge: 10 above it, the arrow strip 10 above the cell

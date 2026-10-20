@@ -168,6 +168,7 @@ namespace Interface10
                 return;
             }
 
+            var inRaid = panel.GetComponentInParent<EftBattleUIScreen>(true) != null;
             foreach (var label in panel.GetComponentsInChildren<RectTransform>(true).Where(t => t.name == "Bind Panel").ToList())
             {
                 var slot = label.parent;
@@ -176,12 +177,16 @@ namespace Interface10
                     continue;
                 }
 
+                // 1.2's places: the inventory's slots have the plate at the cell's edge; the raid's bar has it 4 in on a
+                // weapon cell and a 15 high one on the small cell beside it (EFTBattleUIScreen's QuickAccessPanel)
+                var small = inRaid && slot.name == "SubWeapon";
                 var root = Ui.Rect(slot, "Bind PanelRoot");
                 root.SetSiblingIndex(label.GetSiblingIndex());
-                Ui.Place(root, new[] { 0f, 1f, 1f, 1f, 0f, 0f, 0f, 25f, 0.5f, 1f });
+                Ui.Place(root, small ? new[] { 0f, 1f, 1f, 1f, 12.68f, 0f, -25.35f, 15f, 0.5f, 1f } : new[] { 0f, 1f, 1f, 1f, 0f, 0f, 0f, 25f, 0.5f, 1f });
                 root.gameObject.AddComponent<RectMask2D>();
                 label.SetParent(root, false);
-                Ui.Place(label, new[] { 0f, 1f, 0f, 1f, -1f, 1f, 25f, 25f, 0f, 1f });
+                Ui.Place(label, small ? new[] { 0f, 1f, 0f, 1f, 3.85f, -0.11f, 15.84f, 15f, 0f, 1f }
+                    : new[] { 0f, 1f, 0f, 1f, inRaid ? 4f : -1f, 1f, 25f, 25f, 0f, 1f });
 
                 if (label.GetComponent<Image>() is Image plate && Ui.FileSprite("bind_label", new Vector4(10f, 0f, 10f, 0f)) is Sprite sprite)
                 {
@@ -203,7 +208,8 @@ namespace Interface10
 
                 if (label.Find("BindText") is RectTransform text)
                 {
-                    Ui.Place(text, new[] { 0f, 1f, 0f, 1f, 11f, -12.5f, text.sizeDelta.x, 22f, 0.5f, 0.5f });
+                    Ui.Place(text, small ? new[] { 0f, 1f, 0f, 1f, 7.92f, -7.5f, text.sizeDelta.x, 22f, 0.5f, 0.5f }
+                        : new[] { 0f, 1f, 0f, 1f, 11f, -12.5f, text.sizeDelta.x, 22f, 0.5f, 0.5f });
                     var textFit = text.GetComponent<ContentSizeFitter>() ?? text.gameObject.AddComponent<ContentSizeFitter>();
                     textFit.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
                     textFit.verticalFit = ContentSizeFitter.FitMode.Unconstrained;

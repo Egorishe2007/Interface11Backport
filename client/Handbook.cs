@@ -581,6 +581,14 @@ namespace Interface10
             var read = image.gameObject.AddComponent<ReadButton10>();
             var button = image.gameObject.AddComponent<Button>();
             button.targetGraphic = image;
+            // a little dim at rest, full under the mouse, darker while pressed (Unity's default tint barely shows)
+            var colors = button.colors;
+            colors.normalColor = new Color(0.72f, 0.72f, 0.72f, 1f);
+            colors.highlightedColor = Color.white;
+            colors.selectedColor = new Color(0.72f, 0.72f, 0.72f, 1f);
+            colors.pressedColor = new Color(0.55f, 0.55f, 0.55f, 1f);
+            colors.fadeDuration = 0.1f;
+            button.colors = colors;
             button.onClick.AddListener(() =>
             {
                 if (read._note != null)

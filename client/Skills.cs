@@ -18,6 +18,12 @@ namespace Interface10
             ESkillId.Auctions, ESkillId.Cleanoperations, ESkillId.Shadowconnections, ESkillId.Taskperformance,
         };
 
+        // the ones Skills Extended gives a use again (a player found them gone with it)
+        private static readonly HashSet<ESkillId> UsedBySkillsExtended = new HashSet<ESkillId>
+        {
+            ESkillId.FirstAid, ESkillId.FieldMedicine, ESkillId.SilentOps, ESkillId.Shadowconnections,
+        };
+
         private static readonly FieldInfo List = AccessTools.Field(typeof(SkillManager), nameof(SkillManager.DisplayList));
 
         [HarmonyPatch]
@@ -36,7 +42,9 @@ namespace Interface10
                 try
                 {
                     // the field is readonly: set through reflection, once per skill manager
-                    List.SetValue(__instance, __instance.DisplayList.Where(s => s == null || !Gone.Contains(s.Id)).ToArray());
+                    var kept = Compat.SkillsExtended ? UsedBySkillsExtended : null;
+                    List.SetValue(__instance, __instance.DisplayList
+                        .Where(s => s == null || !Gone.Contains(s.Id) || (kept != null && kept.Contains(s.Id))).ToArray());
                 }
                 catch (Exception ex)
                 {

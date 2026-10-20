@@ -9,7 +9,7 @@ namespace Interface10
     // Interface 1.1 Backport: the interface of EFT 1.0-1.2 on SPT's 0.16 client, screen by screen, each one switched on
     // and off here. The screens are rebuilt from the later clients' own UI scenes (layouts, sizes, colours, sprites and
     // texts of their MenuUIScene etc.). Name and GUID as SPT Forge wants them ("<user>-<mod>", com.<user>.<mod>).
-    [BepInPlugin(Guid, "Grifm0le-Interface11Backport", "1.0.1")]
+    [BepInPlugin(Guid, "Grifm0le-Interface11Backport", "1.0.2")]
     // Soft dependency, loaded first when it is there: VisitAPI (it builds the character's tasks tab itself, so ours stays
     // out of it). The tutorial mod (Tutorial Backport) depends on this one instead: see Tutorial.Present.
     [BepInDependency("com.sora.visitapi", BepInDependency.DependencyFlags.SoftDependency)]
@@ -105,7 +105,9 @@ namespace Interface10
                 "Takes effect the next time a task is shown.");
             SkillsList = Config.Bind("Screens", "1.2 skills list", true,
                 "1.2's skills on the character screen: without the skills that do nothing (first aid, field medicine, night " +
-                "and silent operations, auctions, clean operations, shadow connections, task performance). Needs a game restart.");
+                "and silent operations, auctions, clean operations, shadow connections, task performance). With Skills Extended " +
+                "first aid, field medicine, silent operations and shadow connections stay, as that mod gives them a use; turn " +
+                "this off if another mod uses the others. Needs a game restart.");
             MessengerTabs = Config.Bind("Screens", "1.2 messenger", true,
                 "1.2's messenger: the dialogues in two tabs over their list (PMC frequency: players; Special communications: " +
                 "traders and the system), NO ACTIVE CHATS in an empty tab, the friends button at the foot of the list. Needs a game restart.");

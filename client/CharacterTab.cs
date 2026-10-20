@@ -291,6 +291,14 @@ namespace Interface10
             // the face, large
             var preview = Instantiate(side.transform.Find("PlayerModelViews/FaceSelectionPreview").gameObject, transform, false);
             preview.name = "FaceSelectionPreview";
+            // a character made in this session leaves its body (in full gear) in the creation screen's preview, and the
+            // copy would keep it in front of the face: only the body this tab shows stays
+            foreach (var stale in preview.GetComponentsInChildren<PlayerBody>(true))
+            {
+                DestroyImmediate(stale.gameObject);
+                Interface10Plugin.Log.LogInfo("Character tab: the creation screen's body left out of the copy");
+            }
+
             preview.SetActive(true);
             Visible(preview);
             // over the whole screen as at character creation: the head camera puts the face into the right half
@@ -396,6 +404,7 @@ namespace Interface10
                 }
 
                 _preview.ChangeCameraPosition(PlayerProfilePreview.ECameraViewType.Head);
+
                 if (_materials != null && _preview.PlayerModelView.PlayerBody != null)
                 {
                     _materials.ChangeMaterials(_preview.PlayerModelView.PlayerBody);
