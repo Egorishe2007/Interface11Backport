@@ -18,7 +18,7 @@ public record ModMetadata : IModMetadata
     public string Name { get; init; } = "Interface11Backport";
     public string Author { get; init; } = "Grifm0le";
     public List<string>? Contributors { get; init; }
-    public SemanticVersioning.Version Version { get; init; } = new("1.0.2");
+    public SemanticVersioning.Version Version { get; init; } = new("1.0.3");
     public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.0");
     public bool HasPrepatcher { get; init; }
     public List<string>? Incompatibilities { get; init; }

@@ -194,11 +194,14 @@ namespace Interface10
                     plate.type = Image.Type.Sliced;
                 }
 
+                // the row sizes the key's name itself: from the name's own width, so a long one (a key re-bound to
+                // Mouse4, Num 4) widens the plate at once (a fitter on the name ran after the row and left it 25 wide)
                 var row = label.GetComponent<HorizontalLayoutGroup>() ?? label.gameObject.AddComponent<HorizontalLayoutGroup>();
                 row.padding = new RectOffset(5, 8, 0, 0);
                 row.spacing = 0f;
                 row.childAlignment = TextAnchor.MiddleCenter;
-                row.childControlWidth = row.childControlHeight = false;
+                row.childControlWidth = true;
+                row.childControlHeight = false;
                 row.childForceExpandWidth = row.childForceExpandHeight = false;
                 var element = label.GetComponent<LayoutElement>() ?? label.gameObject.AddComponent<LayoutElement>();
                 element.minWidth = 25f;
@@ -210,9 +213,13 @@ namespace Interface10
                 {
                     Ui.Place(text, small ? new[] { 0f, 1f, 0f, 1f, 7.92f, -7.5f, text.sizeDelta.x, 22f, 0.5f, 0.5f }
                         : new[] { 0f, 1f, 0f, 1f, 11f, -12.5f, text.sizeDelta.x, 22f, 0.5f, 0.5f });
-                    var textFit = text.GetComponent<ContentSizeFitter>() ?? text.gameObject.AddComponent<ContentSizeFitter>();
-                    textFit.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-                    textFit.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+                    if (text.GetComponent<TMP_Text>() is TMP_Text name)
+                    {
+                        // one line: at exactly its width "Num 4" must not wrap
+                        name.enableWordWrapping = false;
+                    }
+
+                    LayoutRebuilder.MarkLayoutForRebuild(label);
                 }
             }
         }

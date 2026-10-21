@@ -9,7 +9,7 @@ namespace Interface10
     // Interface 1.1 Backport: the interface of EFT 1.0-1.2 on SPT's 0.16 client, screen by screen, each one switched on
     // and off here. The screens are rebuilt from the later clients' own UI scenes (layouts, sizes, colours, sprites and
     // texts of their MenuUIScene etc.). Name and GUID as SPT Forge wants them ("<user>-<mod>", com.<user>.<mod>).
-    [BepInPlugin(Guid, "Grifm0le-Interface11Backport", "1.0.2")]
+    [BepInPlugin(Guid, "Grifm0le-Interface11Backport", "1.0.3")]
     // Soft dependency, loaded first when it is there: VisitAPI (it builds the character's tasks tab itself, so ours stays
     // out of it). The tutorial mod (Tutorial Backport) depends on this one instead: see Tutorial.Present.
     [BepInDependency("com.sora.visitapi", BepInDependency.DependencyFlags.SoftDependency)]
