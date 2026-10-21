@@ -336,6 +336,11 @@ namespace Interface10
             var view = Ui.Rect(_list, "ScrollRect");
             Ui.Stretch(view);
             view.gameObject.AddComponent<RectMask2D>();
+            // the whole list takes the wheel, the gaps between the cells too: only the cells did, and between them it
+            // went to whatever lay under the list
+            var wheel = view.gameObject.AddComponent<Image>();
+            wheel.color = Color.clear;
+            wheel.raycastTarget = true;
             _content = Ui.Rect(view, "Content");
             _content.anchorMin = new Vector2(0f, 0f);
             _content.anchorMax = new Vector2(1f, 0f);
